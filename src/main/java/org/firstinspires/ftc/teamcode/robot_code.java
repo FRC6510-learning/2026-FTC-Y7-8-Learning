@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp (name = "a11")
 public class robot_code extends OpMode {
@@ -23,6 +24,9 @@ public class robot_code extends OpMode {
         topFeeder = hardwareMap.get(CRServo.class, "topfeederservo");
         topShooter = hardwareMap.get(DcMotor.class, "topshooter");
         bottomShooter = hardwareMap.get(DcMotor.class, "bottomshooter");
+
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -37,23 +41,35 @@ public class robot_code extends OpMode {
             middleFeeder.setPower(0);
         }
 
-        telemetry.addData("Dpad Up", gamepad1.dpad_up);
+        telemetry.addData("Dpad up", gamepad1.dpad_up);
         if (gamepad1.dpad_up){
-            // TODO FIX turn on top feeder motor
             topFeeder.setPower(1);
         }
         else {
-            frontFeeder.setPower(0);
+            topFeeder.setPower(0);
         }
 
         if (gamepad1.left_bumper) {
             // turn on top top shooter,bottom shooter motors
-            topShooter.setPower(-0.7);
-            bottomShooter.setPower(1);
+            topShooter.setPower(1);
+            bottomShooter.setPower(-1);
         }
         else {
             topShooter.setPower(0);
             bottomShooter.setPower(0);
         }
+
+        double forward = gamepad1.left_stick_y;
+        double turn = -gamepad1.right_stick_x;
+        double strafe= gamepad1.left_stick_x;
+
+        frontLeft.setPower(forward+turn+strafe);
+        frontRight.setPower(forward-turn-strafe);
+        backLeft.setPower(forward+turn-strafe);
+        backRight.setPower(forward-turn+strafe);
+
+
+
+
     }
 }
