@@ -88,10 +88,10 @@ public class robot_code extends OpMode
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        // Reversed right side, change to left if telling the robot to go forward means it goes backwards
+        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -117,9 +117,32 @@ public class robot_code extends OpMode
      */
     @Override
     public void loop() {
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
+        // Mecanum Drive code
+        double forward = -gamepad1.left_stick_y;
+        double strafe =  gamepad1.left_stick_x;
+        double turn = gamepad1.right_stick_x;
 
+        // Intake Controls
+        // Intake: RB
+        // Outtake: LB
+        if (gamepad1.right_bumper) {
+            frontIntake.setPower(0.1);
+            middleIntake.setPower(0.1);
+        } else if (gamepad1.left_bumper) {
+            frontIntake.setPower(-0.1);
+            middleIntake.setPower(-0.1);
+        } else {
+            frontIntake.setPower(0);
+            middleIntake.setPower(0);
+        }
+
+        // Shooter Controls
+        // shooter: RT
+        if (gamepad1.right_trigger_pressed) {
+            topIntake.setPower(0.1);
+            topShooter.setPower(0.1);
+            bottomShooter.setPower(0.1);
+        }
 
     }
 
