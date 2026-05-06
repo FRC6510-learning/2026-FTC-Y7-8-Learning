@@ -49,7 +49,7 @@ public class comp_codemini extends OpMode {
     }
     @Override
     public void loop(){
-        // Section 3
+        // Section 3 hi meowmeowmeowmeowmeowmeowmeow
 
 
 
