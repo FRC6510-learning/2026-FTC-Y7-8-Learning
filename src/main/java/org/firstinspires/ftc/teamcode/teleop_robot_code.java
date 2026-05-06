@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -51,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="a4_robot_code", group="1")
+@TeleOp(name="a4_robot_code", group="2")
 
 public class teleop_robot_code extends OpMode
 {
@@ -68,7 +69,7 @@ public class teleop_robot_code extends OpMode
     public void init() {
         FR = hardwareMap.get(DcMotor.class,"FR");
         FL = hardwareMap.get(DcMotor.class,"FL");
-        BR= hardwareMap.get(DcMotor.class,"BR");
+        BR = hardwareMap.get(DcMotor.class,"BR");
         BL = hardwareMap.get(DcMotor.class,"BL");
         I = hardwareMap.get(DcMotor.class,"I");
         PF = hardwareMap.get(DcMotor.class,"PF");
@@ -76,6 +77,11 @@ public class teleop_robot_code extends OpMode
         SR = hardwareMap.get(DcMotor.class,"SR");
 
         F = hardwareMap.get(CRServo.class,"F");
+
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
@@ -85,6 +91,24 @@ public class teleop_robot_code extends OpMode
     @Override
     public void loop() {
 
+        double lsy = gamepad1.left_stick_y;
+        double lsx = gamepad1.left_stick_x;
+        double rsx = gamepad1.right_stick_x;
+//
+//        FR.setPower(lsy);
+//        FL.setPower(lsy);
+//        BR.setPower(lsy);
+//        BL.setPower(lsy);
+
+//        FR.setPower(-lsx);
+//        BR.setPower(lsx);
+//        FL.setPower(lsx);
+//        BL.setPower(-lsx);
+
+        FR.setPower(lsy - lsx-rsx);
+        FL.setPower(lsy + lsx+rsx);
+        BR.setPower(lsy + lsx-rsx);
+        BL.setPower(lsy - lsx+rsx);
 
         if (gamepad1.a) {
             // execution
@@ -102,21 +126,18 @@ public class teleop_robot_code extends OpMode
 
         if (gamepad1.x) {
             // execution
-            F.setPower(0.5);
+            F.setPower(1);
         } else {
             F.setPower(0);
         }
 
         if (gamepad1.y) {
             // execution
-            SR.setPower(0.5);
-            SL.setPower(0.5);
+            SR.setPower(1);
+            SL.setPower(1);
         } else {
             SR.setPower(0);
             SL.setPower(0);
         }
     }
-
-
-
 }
