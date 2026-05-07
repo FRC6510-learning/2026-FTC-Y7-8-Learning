@@ -55,7 +55,7 @@ public class robot_code extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontMotor = null;
+    DcMotor leftFrontMotor;
     private DcMotor leftBackMotor = null;
     private DcMotor rightFrontMotor = null;
     private DcMotor rightBackMotor = null;
@@ -74,7 +74,7 @@ public class robot_code extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftFrontMotor  = hardwareMap.get(DcMotor.class, "front left wheel");
+        leftFrontMotor  = hardwareMap.get(DcMotor.class, "fl");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "front right wheel");
         leftBackMotor  = hardwareMap.get(DcMotor.class, "back right wheel");
         rightBackMotor = hardwareMap.get(DcMotor.class, "back left wheel");
@@ -118,9 +118,14 @@ public class robot_code extends OpMode
     @Override
     public void loop() {
         // Mecanum Drive code
-        double forward = -gamepad1.left_stick_y;
-        double strafe =  gamepad1.left_stick_x;
+        double forward = -gamepad1.left_stick_y; // int = 0, 1, -8
+        double strafe =  gamepad1.left_stick_x; // double = 0.000567 -1 --> 1  10
         double turn = gamepad1.right_stick_x;
+
+        rightFrontMotor.setPower(forward -turn  -strafe    ); // hi u r dumb   1 - 1 = 0
+        leftFrontMotor.setPower(forward  +turn  +strafe ); // 1+ 1 = 2 --> 1
+        leftBackMotor.setPower(forward    +turn -strafe); // 2 --> 1
+        rightBackMotor.setPower(forward   -turn  +strafe); // 0
 
         // Intake Controls
         // Intake: RB
