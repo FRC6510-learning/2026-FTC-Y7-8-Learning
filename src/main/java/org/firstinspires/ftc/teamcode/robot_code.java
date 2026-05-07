@@ -51,7 +51,7 @@ public class robot_code extends OpMode {
 
         if (gamepad1.left_bumper) {
             // turn on top top shooter,bottom shooter motors
-            topShooter.setPower(1);
+            topShooter.setPower(-1);
             bottomShooter.setPower(-1);
         }
         else {
