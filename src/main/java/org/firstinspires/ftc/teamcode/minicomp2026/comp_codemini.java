@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
+
+
 @TeleOp(name = "")
 public class comp_codemini extends OpMode {
     //Seciton 1 - creating variables
@@ -19,6 +21,10 @@ public class comp_codemini extends OpMode {
     DcMotor Middle_Intake_Left;
     DcMotor Shooter_Right,Shooter_Left;
     CRServo Servo;
+
+    double FPS = 0.5;
+
+
 
 
 
@@ -43,13 +49,15 @@ public class comp_codemini extends OpMode {
         Servo = hardwareMap.get(CRServo.class,"Arctic(shooter servo)");
 
 
+
+
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
     }
     @Override
     public void loop(){
-        // Section 3 hi meowmeowmeowmeowmeowmeowmeow
+        // Section 3 hi
 
 
 
@@ -97,10 +105,16 @@ public class comp_codemini extends OpMode {
 
 
 
-        BR.setPower(forward - turning - strafing ); // 1 - 0 = 1 , 1 - 1 = 0,  0 - (-1) = 1
-        BL.setPower(forward + turning + strafing );
-        FL.setPower(forward + turning - strafing);
-        FR.setPower(forward - turning + strafing);
+
+        BR.setPower(FPS*(forward - turning - strafing) ); // 1 - 0 = 1 , 1 - 1 = 0,  0 - (-1) = 1
+        BL.setPower(FPS*(forward + turning + strafing) );
+        FL.setPower(FPS*(forward + turning - strafing));
+        FR.setPower(FPS*(forward - turning + strafing));
+
+        if (gamepad1.left_trigger_pressed){
+            FPS += 0.1;
+        };
+
 
 
 
