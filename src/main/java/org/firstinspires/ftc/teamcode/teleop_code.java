@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp (name = "a11")
+@TeleOp (name = "a10")
 public class teleop_code extends OpMode {
 
     private DcMotor front_left, front_right, back_right, back_left;
