@@ -76,27 +76,43 @@ public class A2_teleop_code extends OpMode {
         i1 = hardwareMap.get(DcMotor.class, "i1");
         bs = hardwareMap.get(DcMotor.class, "bs");
         ts = hardwareMap.get(DcMotor.class, "ts");
+
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction. REVERSE);
     }
 
 
     @Override
     public void loop() {
+        double y = gamepad2.right_stick_y;
+        double x = gamepad2.left_stick_x;
+        double z = gamepad2.right_stick_x;
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(z), 1);
+        fr.setPower((y+x+z)/denominator);
+        br.setPower((y+x-z)/denominator);
+        fl.setPower((y-x-z)/denominator);
+        bl.setPower((y-x+z)/denominator);
+
         if (gamepad1.right_bumper) {
             i1.setPower(1);
             i2.setPower(1);
         } else {
             i1.setPower(0);
             i2.setPower(0);
-
-
         }
+
         if (gamepad1.left_bumper) {
             ts.setPower(1);
             bs.setPower(1);
-
         } else {
             ts.setPower(0);
             bs.setPower(0);
+        }
+
+        if (gamepad1.left_bumper) {
+            feeder.setPower(1);
+        } else {
+            feeder.setPower(0);
         }
 
 
@@ -104,5 +120,7 @@ public class A2_teleop_code extends OpMode {
 
 
 }
+
+
 
 
