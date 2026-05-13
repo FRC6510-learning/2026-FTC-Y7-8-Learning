@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pymble pesto pirates", group="Iterative OpMode")
+@TeleOp(name="Pymble A1Milk", group="Iterative OpMode")
 public class A1_robotcode extends OpMode
 {
     // Declare OpMode members.
@@ -92,6 +92,8 @@ public class A1_robotcode extends OpMode
 
         lfront.setDirection(DcMotor.Direction.REVERSE);
         lback.setDirection(DcMotor.Direction.REVERSE);
+        rshooter.setDirection(DcMotor.Direction.FORWARD);
+        lshooter.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
@@ -145,6 +147,7 @@ public class A1_robotcode extends OpMode
         } else {
             feeder2.setPower(0);
         }
+
     }
     }
 
