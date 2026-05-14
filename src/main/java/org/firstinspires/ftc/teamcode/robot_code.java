@@ -131,11 +131,11 @@ public class robot_code extends OpMode
         // Intake: RB
         // Outtake: LB
         if (gamepad1.right_bumper) {
-            frontIntake.setPower(0.1);
-            middleIntake.setPower(0.1);
+            frontIntake.setPower(1);
+            middleIntake.setPower(1);
         } else if (gamepad1.left_bumper) {
-            frontIntake.setPower(-0.1);
-            middleIntake.setPower(-0.1);
+            frontIntake.setPower(-1);
+            middleIntake.setPower(-1);
         } else {
             frontIntake.setPower(0);
             middleIntake.setPower(0);
@@ -144,10 +144,24 @@ public class robot_code extends OpMode
         // Shooter Controls
         // shooter: RT
         if (gamepad1.right_trigger_pressed) {
-            topIntake.setPower(0.1);
-            topShooter.setPower(0.1);
-            bottomShooter.setPower(0.1);
+            topIntake.setPower(-1);
+            topShooter.setPower(1);
+            bottomShooter.setPower(1);
+        } else {
+            topIntake.setPower(0);
+            topShooter.setPower(0);
+            bottomShooter.setPower(0);
         }
+
+        if (gamepad1.left_trigger > 0.5) {
+               topIntake.setPower(1);
+               topShooter.setPower(-1);
+               bottomShooter.setPower(-1);
+        } else {
+               topIntake.setPower(0);
+               topShooter.setPower(0);
+               bottomShooter.setPower(0);
+           }
 
     }
 
