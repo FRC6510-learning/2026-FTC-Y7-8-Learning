@@ -7,10 +7,11 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(group = "hello" , name = "a6robotcodenumber2")
+@TeleOp(name = "a6ArBotcode:D")
 public class Aname extends OpMode {
     private DcMotor FL_wheel, BL_wheel, FR_wheel, BR_wheel, Front_feeder, Middle_feeder, Shooter_2, Shooter_1;
     private CRServo Servo;
+    double aname = 0.28;
     @Override
     public void init() {
         FL_wheel = hardwareMap.get(DcMotor.class, "FLwheel");
@@ -57,10 +58,10 @@ public class Aname extends OpMode {
         double side = gamepad1.left_stick_x;
 
 
-        FR_wheel.setPower(forward + turn + side);
-        BR_wheel.setPower(forward + turn - side);
-        FL_wheel.setPower(forward - turn - side);
-        BL_wheel.setPower(forward - turn + side);
+        FR_wheel.setPower(aname*(forward + turn + side));
+        BR_wheel.setPower(aname*(forward + turn - side));
+        FL_wheel.setPower(aname*(forward - turn - side));
+        BL_wheel.setPower(aname*(forward - turn + side));
 
 
         telemetry.addData("something", "something else");
