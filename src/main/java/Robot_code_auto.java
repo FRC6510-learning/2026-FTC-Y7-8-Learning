@@ -10,6 +10,8 @@ public class Robot_code_auto extends LinearOpMode {
     private DcMotor FrontRight, FrontLeft, BackLeft, BackRight, secondfeeder, frontshooter, backshooter, firstfeeder;
     private CRServo Servo;
 
+    private double Threshold = 0.1;
+
 
     @Override
     public void runOpMode() {
@@ -40,24 +42,46 @@ public class Robot_code_auto extends LinearOpMode {
 
         waitForStart();
 
-        forward(1000, 0.5);
+        forward(1100, 0.5);
 
         Turn(1000, 0.5);
 
-        firstfeeder.setPower(-1);
+        firstfeeder.setPower(-0.7);
 
-        secondfeeder.setPower(-1);
+        secondfeeder.setPower(-0.7);
 
-        forward(-1800, 0.3);
 
+        forward(-1100, 0.4);
         firstfeeder.setPower(0);
-
         secondfeeder.setPower(0);
 
-        forward(2000, 0.5);
+        Servo.setPower(-2);
+        sleep(500);
+        Servo.setPower(0);
+
+
+
+
+
+        forward(2100, 0.5);
         Turn(-1000,0.5);
         forward(2000,0.5);
-        Turn(-400, 0.5);
+        Turn(-520, 0.5);
+
+
+
+        frontshooter.setPower(-0.85);
+        backshooter.setPower(-0.85);
+        Servo.setPower(-2);
+        sleep(300);
+        secondfeeder.setPower(-1);
+        firstfeeder.setPower(-1);
+        sleep(10000);
+        frontshooter.setPower(0);
+        backshooter.setPower(0);
+        Servo.setPower(0);
+        secondfeeder.setPower(0);
+        firstfeeder.setPower(0);
 
 
     }
@@ -81,7 +105,14 @@ public class Robot_code_auto extends LinearOpMode {
         BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(FrontLeft.isBusy() || FrontRight.isBusy()|| BackRight.isBusy()|| BackLeft.isBusy()){
-
+            if (FrontLeft.getPower() < Threshold &&
+                    FrontRight.getPower() < Threshold &&
+                    BackRight.getPower() < Threshold &&
+                    BackLeft.getPower() < Threshold
+            )
+            {
+                break;
+            }
         }
 
     }
@@ -105,9 +136,18 @@ public class Robot_code_auto extends LinearOpMode {
         BackRight.setPower(power);
         BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while(FrontLeft.isBusy() || FrontRight.isBusy()|| BackRight.isBusy()|| BackLeft.isBusy()){
-
+        while(FrontLeft.isBusy() || FrontRight.isBusy() || BackRight.isBusy() || BackLeft.isBusy()){
+            if (FrontLeft.getPower() < Threshold &&
+                FrontRight.getPower() < Threshold &&
+                BackRight.getPower() < Threshold &&
+                BackLeft.getPower() < Threshold
+            )
+            {
+                break;
+            }
         }
+
+
 
     }
 
