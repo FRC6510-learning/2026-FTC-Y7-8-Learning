@@ -79,6 +79,7 @@ public class A2_teleop_code extends OpMode {
 
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction. REVERSE);
+
     }
 
 
@@ -93,9 +94,12 @@ public class A2_teleop_code extends OpMode {
         fl.setPower((y+x+z)/denominator);
         bl.setPower((y+x-z)/denominator);
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.y) {
             i1.setPower(1);
             i2.setPower(1);
+        } else if (gamepad1.a) {
+            i1.setPower(-1);
+            i2.setPower(-1);
         } else {
             i1.setPower(0);
             i2.setPower(0);
@@ -104,14 +108,20 @@ public class A2_teleop_code extends OpMode {
         if (gamepad1.left_bumper) {
             ts.setPower(1);
             bs.setPower(1);
+        } else if(gamepad1.right_bumper) {
+            ts.setPower(-1);
+            bs.setPower(-1);
         } else {
             ts.setPower(0);
             bs.setPower(0);
         }
 
-        if (gamepad1.left_bumper) {
+
+        if (gamepad1.x) {
+            feeder.setPower(-1);
+        }else if(gamepad1.b) {
             feeder.setPower(1);
-        } else {
+        }else {
             feeder.setPower(0);
         }
 
