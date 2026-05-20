@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pymble pesto pirates", group="Iterative OpMode")
+@TeleOp(name="A1Milk", group="Iterative OpMode")
 public class A1_robotcode extends OpMode
 {
     // Declare OpMode members.
@@ -64,8 +64,8 @@ public class A1_robotcode extends OpMode
     boolean xButton;
     boolean yButton;
 
-    boolean aButton;
-    boolean bButton;
+    boolean upButton;
+    boolean downButton;
 
     boolean rButton;
 
@@ -92,6 +92,7 @@ public class A1_robotcode extends OpMode
 
         lfront.setDirection(DcMotor.Direction.REVERSE);
         lback.setDirection(DcMotor.Direction.REVERSE);
+        rshooter.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
@@ -102,8 +103,8 @@ public class A1_robotcode extends OpMode
     public void loop() {
         xButton = gamepad1.x;
         yButton = gamepad1.y;
-        aButton = gamepad1.a;
-        bButton = gamepad1.b;
+        upButton = gamepad1.dpad_up;
+        downButton = gamepad1.dpad_down;
         rButton = gamepad1.right_bumper;
         lButton = gamepad1.left_bumper;
         y = gamepad2.left_stick_y;
@@ -111,10 +112,10 @@ public class A1_robotcode extends OpMode
         rx = gamepad2.left_stick_x;
         denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx),1);
 
-        lfront.setPower((y + x + rx)/denominator);
-        rfront.setPower((y - x - rx)/denominator);
-        lback.setPower((y + x - rx)/denominator);
-        rback.setPower((y - x + rx)/denominator);
+        lfront.setPower((y - x - rx)/denominator);
+        rfront.setPower((y + x + rx)/denominator);
+        lback.setPower((y - x + rx)/denominator);
+        rback.setPower((y + x - rx)/denominator);
 
         if(xButton) {
             intake.setPower(1.0);
@@ -127,20 +128,20 @@ public class A1_robotcode extends OpMode
             feeder.setPower(0);
         }
 
-        if(aButton) {
-            lshooter.setPower(1.0);
-            rshooter.setPower(-1.0);
-        }else if(bButton) {
-            lshooter.setPower(-1.0);
-            rshooter.setPower(1.0);
+        if(rButton) {
+            lshooter.setPower(-0.8);
+            rshooter.setPower(0.8);
+        }else if(lButton) {
+            lshooter.setPower(0.8);
+            rshooter.setPower(-0.8);
         } else {
             lshooter.setPower(0);
             rshooter.setPower(0);
         }
 
-        if(rButton) {
+        if(upButton) {
             feeder2.setPower(1.0);
-        } else if(lButton) {
+        } else if(downButton) {
             feeder2.setPower(-1.0);
         } else {
             feeder2.setPower(0);
