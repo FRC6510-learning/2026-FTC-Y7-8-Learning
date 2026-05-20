@@ -9,11 +9,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "a6ArBotcode:D")
 public class Aname extends OpMode {
+    // Section 1
     private DcMotor FL_wheel, BL_wheel, FR_wheel, BR_wheel, Front_feeder, Middle_feeder, Shooter_2, Shooter_1;
     private CRServo Servo;
     double aname = 0.28;
     @Override
     public void init() {
+        // Section 2
+
         FL_wheel = hardwareMap.get(DcMotor.class, "FLwheel");
         BL_wheel = hardwareMap.get(DcMotor.class, "BLwheel");
         FR_wheel = hardwareMap.get(DcMotor.class, "FRwheel");
@@ -33,7 +36,11 @@ public class Aname extends OpMode {
         if (gamepad1.a) {
             Front_feeder.setPower(-1);
             Middle_feeder.setPower(1);
-        } else {
+        } else if (gamepad1.y) {
+            Middle_feeder.setPower(-1);
+            Servo.setPower(1);
+        }
+        else {
             Front_feeder.setPower(0);
             Middle_feeder.setPower(0);
         }
@@ -52,6 +59,8 @@ public class Aname extends OpMode {
             Shooter_1.setPower(0);
             Shooter_2.setPower(0);
         }
+
+
 
         double forward = gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
