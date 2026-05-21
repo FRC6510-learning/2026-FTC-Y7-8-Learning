@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous (name = "auto_minicomp")
+@Autonomous (name = "autocode_minicomp")
 public class comp_codemini_auto extends LinearOpMode {
 
     //Section 1 - creating variables
@@ -31,7 +31,7 @@ public class comp_codemini_auto extends LinearOpMode {
 
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         Servo.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -39,18 +39,28 @@ public class comp_codemini_auto extends LinearOpMode {
         Shooter_Right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
 
         waitForStart();
 
             //Section 3 - the ACTUAL code
-        Front_Intake_Right.setPower(1);
-        sleep(1000);
-        Front_Intake_Right.setPower(0);
-        sleep(100);
-        Middle_Intake_Left.setPower(1);
+        turn(950,0.8);
 
         forward(1000, 0.5);
+        sleep(1000);
+        turn(950,0.8);
+
 
 
     }
@@ -80,34 +90,43 @@ public class comp_codemini_auto extends LinearOpMode {
 
         while (FR.isBusy() || FL.isBusy() || BR.isBusy() || BL.isBusy()) {
 
-
-
         }
 
-        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+    }
+
+    public void turn(int distance, double powerforme) {
+
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        FR.setTargetPosition(distance);
-        FR.setPower(power);
+        sleep(10);
 
-        FL.setTargetPosition(distance);
-        FL.setPower(power);
-
-        BR.setTargetPosition(distance);
-        BR.setPower(power);
-
+        BR.setTargetPosition(-distance);
         BL.setTargetPosition(distance);
-        BL.setPower(power);
+        FR.setTargetPosition(-distance);
+        FL.setTargetPosition(distance);
 
-        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setPower(powerforme);
+        BL.setPower(powerforme);
+        FL.setPower(powerforme);
+        FR.setPower(powerforme);
+
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (FR.isBusy() || FL.isBusy() || BR.isBusy() || BL.isBusy()) {
+        while (amIbusy()) {       }
 
-        }
+
+    }
+
+    public boolean amIbusy() {
+        return ( BR.isBusy() || BL.isBusy() || FR.isBusy() || FL.isBusy());
     }
 
 

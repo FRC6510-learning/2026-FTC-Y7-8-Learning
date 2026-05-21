@@ -52,7 +52,7 @@ public class comp_codemini extends OpMode {
 
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         Servo.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -89,8 +89,8 @@ public class comp_codemini extends OpMode {
             Shooter_Right.setPower(0.75);
             Shooter_Left.setPower(0.75);
         } else if(gamepad2.dpad_down){
-            Shooter_Right.setPower(0.25);
-            Shooter_Left.setPower(0.25);
+            Shooter_Right.setPower(0);
+            Shooter_Left.setPower(0);
         }
         if (gamepad2.x){
             Servo.setPower(1);
@@ -98,27 +98,26 @@ public class comp_codemini extends OpMode {
             Servo.setPower(0);
         }
 
-
         double forward = -gamepad1.left_stick_y;
-
-
         double turning = gamepad1.right_stick_x;
+        double strafing =  -gamepad1.left_stick_x;
 
-
-        double strafing =  gamepad1.left_stick_x;
-
-
-
-
-
-        BR.setPower((forward - turning - strafing) ); // 1 - 0 = 1 , 1 - 1 = 0,  0 - (-1) = 1
-        BL.setPower((forward + turning + strafing) );
+        BR.setPower((forward - turning - strafing)); // 1 - 0 = 1 , 1 - 1 = 0,  0 - (-1) = 1
+        BL.setPower((forward + turning + strafing));
         FL.setPower((forward + turning - strafing));
         FR.setPower((forward - turning + strafing));
 
 //        if (gamepad1.left_trigger_pressed){
 //            FPS += 0.1;
 //        };
+
+
+        telemetry.addData("Front Right" , FR.getCurrentPosition());
+        telemetry.addData("Front Left" , FL.getCurrentPosition());
+        telemetry.addData("Back Right" , BR.getCurrentPosition());
+        telemetry.addData("Back Left" , BL.getCurrentPosition());
+        telemetry.update();
+
 
 
 
