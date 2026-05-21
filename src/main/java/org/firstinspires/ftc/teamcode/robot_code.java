@@ -69,15 +69,13 @@ public class robot_code extends OpMode
      */
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
-
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
         leftFrontMotor  = hardwareMap.get(DcMotor.class, "fl");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "front right wheel");
-        leftBackMotor  = hardwareMap.get(DcMotor.class, "back right wheel");
-        rightBackMotor = hardwareMap.get(DcMotor.class, "back left wheel");
+        leftBackMotor  = hardwareMap.get(DcMotor.class, "back left wheel");
+        rightBackMotor = hardwareMap.get(DcMotor.class, "back right wheel");
         frontIntake = hardwareMap.get(DcMotor.class, "front intake");
         middleIntake = hardwareMap.get(DcMotor.class, "middle intake");
         topIntake = hardwareMap.get(CRServo.class, "top intake");
@@ -130,9 +128,10 @@ public class robot_code extends OpMode
         // Intake Controls
         // Intake: RB
         // Outtake: LB
+
         if (gamepad1.right_bumper) {
-            frontIntake.setPower(1);
-            middleIntake.setPower(1);
+            frontIntake.setPower(1); // TODO
+            middleIntake.setPower(1); // TODO: really slow
         } else if (gamepad1.left_bumper) {
             frontIntake.setPower(-1);
             middleIntake.setPower(-1);
@@ -143,8 +142,21 @@ public class robot_code extends OpMode
 
         // Shooter Controls
         // shooter: RT
-        if (gamepad1.right_trigger_pressed) {
+
+        if (gamepad1.right_trigger > 0.5) {
             topIntake.setPower(-1);
+
+            topShooter.setPower(-1);
+            bottomShooter.setPower(-1);
+        } else {
+            topIntake.setPower(0);
+
+            topShooter.setPower(0);
+            bottomShooter.setPower(0);
+        }
+
+        if (gamepad1.left_trigger > 0.5) {
+            topIntake.setPower(1);
             topShooter.setPower(1);
             bottomShooter.setPower(1);
         } else {
@@ -153,15 +165,7 @@ public class robot_code extends OpMode
             bottomShooter.setPower(0);
         }
 
-        if (gamepad1.left_trigger > 0.5) {
-               topIntake.setPower(1);
-               topShooter.setPower(-1);
-               bottomShooter.setPower(-1);
-        } else {
-               topIntake.setPower(0);
-               topShooter.setPower(0);
-               bottomShooter.setPower(0);
-           }
+        telemetry.update();
 
     }
 
