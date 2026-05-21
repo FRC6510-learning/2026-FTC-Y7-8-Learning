@@ -24,13 +24,16 @@ public class teleop_code extends OpMode {
         back_left = hardwareMap.get(DcMotor.class, "back_left");
         back_right = hardwareMap.get(DcMotor.class, "back_right");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        conveyor = hardwareMap.get(DcMotor.class, "");
-        feeder = hardwareMap.get(CRServo.class, "topfeederservo");
+        conveyor = hardwareMap.get(DcMotor.class, "conveyor");
+        feeder = hardwareMap.get(CRServo.class, "feeder");
         left_flywheel = hardwareMap.get(DcMotor.class, "topshooter");
         right_flywheel = hardwareMap.get(DcMotor.class, "bottomshooter");
 
         front_left.setDirection(DcMotorSimple.Direction.REVERSE);
-        back_right.setDirection(DcMotorSimple.Direction.REVERSE);
+        back_left.setDirection(DcMotorSimple.Direction.REVERSE);
+        feeder.setDirection(CRServo.Direction.REVERSE);
+        conveyor.setDirection(DcMotorSimple.Direction.REVERSE);
+        left_flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -38,16 +41,10 @@ public class teleop_code extends OpMode {
         if (gamepad1.left_bumper) {
             intake.setPower(1);
             conveyor.setPower(1);
-        }
-        else {
-            intake .setPower(0);
-            conveyor .setPower(0);
-        }
-        if (gamepad1.left_trigger > 0.5) {
-            intake.setPower(1);
-            conveyor.setPower(1);
-        }
-        else {
+        } else if (gamepad1.left_trigger > 0.5) {
+            intake.setPower(-1);
+            conveyor.setPower(-1);
+        } else {
             intake .setPower(0);
             conveyor .setPower(0);
         }
@@ -55,13 +52,14 @@ public class teleop_code extends OpMode {
         telemetry.addData("Dpad up", gamepad1.dpad_up);
         if (gamepad1.dpad_up){
             feeder.setPower(1);
-        }
-        else {
+        } else if(gamepad1.dpad_down){
+            feeder.setPower(-1);
+        } else {
             feeder.setPower(0);
         }
 
-        boolean current_state = gamepad1.rightBumperWasPressed();
 
+        boolean current_state = gamepad1.rightBumperWasPressed();
 
         if (current_state){
             power = !power;
@@ -69,8 +67,8 @@ public class teleop_code extends OpMode {
 
         if (power) {
             // turn on top top shooter,bottom shooter motors
-            left_flywheel.setPower(1);
-            right_flywheel.setPower(-1);
+            left_flywheel.setPower(-0.8);
+            right_flywheel.setPower(0.8);
         }
         else {
             left_flywheel.setPower(0);
@@ -81,13 +79,13 @@ public class teleop_code extends OpMode {
         double turn = -gamepad1.right_stick_x;
         double strafe= gamepad1.left_stick_x;
 
-        front_left .setPower(forward+turn+strafe);
-        front_right.setPower(forward-turn-strafe);
-        back_left.setPower(forward+turn-strafe);
-        back_right.setPower(forward-turn+strafe);
-
-
-
-
+        front_left.setPower(forward+turn-strafe);
+        front_right.setPower(forward-turn+strafe);
+        back_left.setPower(forward+turn+strafe);
+        back_right.setPower(forward-turn-strafe);
+        front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        back_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 }
