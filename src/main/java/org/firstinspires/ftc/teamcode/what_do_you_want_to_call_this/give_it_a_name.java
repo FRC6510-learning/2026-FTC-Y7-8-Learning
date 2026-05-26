@@ -34,9 +34,39 @@ public class give_it_a_name extends LinearOpMode {
         waitForStart();
         // Section 3 - Actual Drive Code
 
-        Front_feeder.setPower(1);
-        sleep(1000);
-        Front_feeder.setPower(0);
+        a_name_for_driving_forwards(3000, 0.8);
+        a_name_for_driving_forwards(-1000,0.5);
 
     }
+
+    public void a_name_for_driving_forwards(int distance, double are_you_waiting_for_me_to_say_something){
+
+        FR_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FR_wheel.setTargetPosition(distance);
+        FL_wheel.setTargetPosition(distance);
+        BL_wheel.setTargetPosition(distance);
+        BL_wheel.setTargetPosition(distance);
+
+        FR_wheel.setPower(are_you_waiting_for_me_to_say_something);
+        FL_wheel.setPower(are_you_waiting_for_me_to_say_something);
+        BR_wheel.setPower(are_you_waiting_for_me_to_say_something);
+        BL_wheel.setPower(are_you_waiting_for_me_to_say_something);
+
+        FR_wheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FL_wheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR_wheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL_wheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (wdywctf()) {     }
+
+    }
+
+    public boolean wdywctf(){
+        return FR_wheel.isBusy() || FL_wheel.isBusy() || BR_wheel.isBusy() || BL_wheel.isBusy();
+    }
+
 }
