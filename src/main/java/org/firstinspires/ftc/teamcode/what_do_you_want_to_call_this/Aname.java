@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "a6ArBotcode:D")
+@TeleOp(name = "a6ArBotcode")
 public class Aname extends OpMode {
     // Section 1
     private DcMotor FL_wheel, BL_wheel, FR_wheel, BR_wheel, Front_feeder, Middle_feeder, Shooter_2, Shooter_1;
@@ -30,6 +30,11 @@ public class Aname extends OpMode {
         //.setDirection(DcMotorSimple.Direction.REVERSE);
         FL_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
         BL_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        FL_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     @Override
     public void loop() {
@@ -66,6 +71,12 @@ public class Aname extends OpMode {
         double turn = gamepad1.right_stick_x;
         double side = gamepad1.left_stick_x;
 
+        if (gamepad1.right_bumper) {
+            aname = 0.2;
+        } else {
+            aname = 1;
+        }
+
 
         FR_wheel.setPower(aname*(forward + turn + side));
         BR_wheel.setPower(aname*(forward + turn - side));
@@ -73,8 +84,14 @@ public class Aname extends OpMode {
         BL_wheel.setPower(aname*(forward - turn + side));
 
 
+        // you told me to name it something and something else
+        //
+
         telemetry.addData("something", "something else");
-        telemetry.addData("Motor power", FR_wheel.getPower());
+        telemetry.addData("Front right position", FR_wheel.getCurrentPosition());
+        telemetry.addData("Back right position", BR_wheel.getCurrentPosition());
+        telemetry.addData("Front Left position", FL_wheel.getCurrentPosition());
+        telemetry.addData("Back Left position", BL_wheel.getCurrentPosition());
         telemetry.update();
 
 
