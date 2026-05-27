@@ -3,14 +3,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 @Autonomous(name = "a5robotcode_auto_fs")
 public class Robot_code_auto extends LinearOpMode {
-    private DcMotor FrontRight, FrontLeft, BackLeft, BackRight, secondfeeder, frontshooter, backshooter, firstfeeder;
+    private DcMotor FrontRight, FrontLeft, BackLeft, BackRight, secondfeeder,  firstfeeder;
     private CRServo Servo;
+    private DcMotorEx frontshooter, backshooter;
 
-    private double Threshold = 0.1;
+    private double Threshold = 0.05;
 
 
     @Override
@@ -21,8 +24,8 @@ public class Robot_code_auto extends LinearOpMode {
         BackRight = hardwareMap.get(DcMotor.class, "BRW");
         firstfeeder = hardwareMap.get(DcMotor.class, "FF");
         secondfeeder = hardwareMap.get(DcMotor.class, "SF");
-        frontshooter = hardwareMap.get(DcMotor.class, "FS");
-        backshooter = hardwareMap.get(DcMotor.class, "BS");
+        frontshooter = hardwareMap.get(DcMotorEx.class, "FS");
+        backshooter = hardwareMap.get(DcMotorEx.class, "BS");
         Servo = hardwareMap.get(CRServo.class, "Servo");
 
         FrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -40,45 +43,40 @@ public class Robot_code_auto extends LinearOpMode {
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
+
         waitForStart();
 
-        forward(1100, 0.5);
+        forward(1100, 0.4);
 
-        Turn(1000, 0.5);
+        Turn(1000, 0.4);
 
         firstfeeder.setPower(-0.7);
 
         secondfeeder.setPower(-0.7);
 
 
-        forward(-1100, 0.4);
+        forward(-1800, 0.3);
         firstfeeder.setPower(0);
         secondfeeder.setPower(0);
 
-        Servo.setPower(-2);
-        sleep(500);
-        Servo.setPower(0);
+
+        forward(2100, 0.4);
+        Turn(-1000,0.4);
+        forward(2000,0.4);
+        Turn(-510, 0.4);
 
 
 
-
-
-        forward(2100, 0.5);
-        Turn(-1000,0.5);
-        forward(2000,0.5);
-        Turn(-520, 0.5);
-
-
-
-        frontshooter.setPower(-0.85);
-        backshooter.setPower(-0.85);
+        frontshooter.setVelocity(-1850);
+        backshooter.setVelocity(-1850);
         Servo.setPower(-2);
         sleep(300);
         secondfeeder.setPower(-1);
         firstfeeder.setPower(-1);
         sleep(10000);
-        frontshooter.setPower(0);
-        backshooter.setPower(0);
+        frontshooter.setVelocity(0);
+        backshooter.setVelocity(0);
         Servo.setPower(0);
         secondfeeder.setPower(0);
         firstfeeder.setPower(0);
