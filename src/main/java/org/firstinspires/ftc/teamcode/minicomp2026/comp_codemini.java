@@ -59,6 +59,11 @@ public class comp_codemini extends OpMode {
         Shooter_Left.setDirection(DcMotorSimple.Direction.REVERSE);
         Shooter_Right.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
 
     }

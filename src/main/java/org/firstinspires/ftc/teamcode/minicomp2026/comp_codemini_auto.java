@@ -55,14 +55,34 @@ public class comp_codemini_auto extends LinearOpMode {
         waitForStart();
 
             //Section 3 - the ACTUAL code
-        turn(950,0.8);
+       // forward(1200, 0.8);
+      //  sleep(1000);
+     //   turn(980,0.6);
+     //   sleep(1000);
+     //   something(-250, 1700, -250, 1700, 0.8);
+        Front_Intake_Right.setPower(1);
+        Middle_Intake_Left.setPower(1);
+   //     sleep(1000);
+   //     forward(-1700,0.4);
+    //    sleep(1000);
+   //     forward(1000,0.6);
+    //    sleep(1000);
+      //  shooter(1);
+        //sleep(1000);
+        //turn(-980/2,0.8);
+        //sleep(1000);
+        Servo.setPower(1);
+        //forward(1500,0.5);
+        sleep(10000);
 
-        forward(1000, 0.5);
-        sleep(1000);
-        turn(950,0.8);
 
 
 
+    }
+
+    public  void shooter(double power){
+        Shooter_Left.setPower(power);
+        Shooter_Right.setPower(power);
     }
 
     public void forward(int distance, double power) {
@@ -95,8 +115,35 @@ public class comp_codemini_auto extends LinearOpMode {
 
 
     }
+    public void something(int FR_, int FL_, int BR_, int BL_, double power) {
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-    public void turn(int distance, double powerforme) {
+        FR.setTargetPosition(FR_);
+        FR.setPower(power);
+
+        FL.setTargetPosition(FL_);
+        FL.setPower(power);
+
+        BR.setTargetPosition(BR_);
+        BR.setPower(power);
+
+        BL.setTargetPosition(BL_);
+        BL.setPower(power);
+
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (FR.isBusy() || FL.isBusy() || BR.isBusy() || BL.isBusy()) {
+
+        }
+    }
+
+        public void turn(int distance, double powerforme) {
 
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
