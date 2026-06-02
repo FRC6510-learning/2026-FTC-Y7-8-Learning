@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pymble pesto pirates", group="Iterative OpMode")
+@TeleOp(name="A1 Milk", group="Iterative OpMode")
 public class A1_robotcode extends OpMode
 {
     // Declare OpMode members.
