@@ -16,7 +16,6 @@ public class teleop_code extends OpMode {
     private CRServo feeder;
     boolean power = false;
 
-
     @Override
     public void init() {
         front_left = hardwareMap.get(DcMotor.class, "front_left");
