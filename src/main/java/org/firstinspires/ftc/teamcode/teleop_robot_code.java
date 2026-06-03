@@ -110,28 +110,28 @@ public class teleop_robot_code extends OpMode
         BR.setPower(lsy + lsx-rsx);
         BL.setPower(lsy - lsx+rsx);
 
-        if (gamepad1.a) {
+        if (gamepad2.a) {
             // execution
             I.setPower(-0.5);
         } else {
             I.setPower(0);
         }
 
-        if (gamepad1.b) {
+        if (gamepad2.b) {
             // execution
             PF.setPower(-0.5);
         } else {
             PF.setPower(0);
         }
 
-        if (gamepad1.x) {
+        if (gamepad2.right_trigger > 0.1) {
             // execution
             F.setPower(1);
         } else {
             F.setPower(0);
         }
 
-        if (gamepad1.y) {
+        if (gamepad2.left_trigger > 0.1) {
             // execution
             SR.setPower(1);
             SL.setPower(1);
