@@ -55,25 +55,28 @@ public class comp_codemini_auto extends LinearOpMode {
         waitForStart();
 
             //Section 3 - the ACTUAL code
-       // forward(1200, 0.8);
-      //  sleep(1000);
-     //   turn(980,0.6);
-     //   sleep(1000);
-     //   something(-250, 1700, -250, 1700, 0.8);
+        forward(1200, 0.6);
+        sleep(1000);
+        turn(980,0.5);
+        sleep(1000);
         Front_Intake_Right.setPower(1);
         Middle_Intake_Left.setPower(1);
-   //     sleep(1000);
-   //     forward(-1700,0.4);
-    //    sleep(1000);
-   //     forward(1000,0.6);
-    //    sleep(1000);
-      //  shooter(1);
-        //sleep(1000);
-        //turn(-980/2,0.8);
-        //sleep(1000);
+        sleep(1000);
+        forward(-1900,0.4);
+        sleep(1000);
+        forward(1000,0.6);
+        sleep(1000);
+        shooter(0.90);
+        sleep(1000);
+        turn(-1009/2,0.6);
+        sleep(1000);
         Servo.setPower(1);
-        //forward(1500,0.5);
-        sleep(10000);
+        forward(1900,0.5);
+        sleep(1700);
+        forward(-1500,0.5);
+        turn(-980,0.5);
+        forward(1500,0.5);
+
 
 
 

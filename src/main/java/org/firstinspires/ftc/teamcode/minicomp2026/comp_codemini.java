@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,7 +20,7 @@ public class comp_codemini extends OpMode {
     DcMotor FR, FL, BR, BL;
     DcMotor Front_Intake_Right;
     DcMotor Middle_Intake_Left;
-    DcMotor Shooter_Right,Shooter_Left;
+    DcMotorEx Shooter_Right,Shooter_Left;
     CRServo Servo;
 
     double FPS = 0.5;
@@ -42,8 +43,8 @@ public class comp_codemini extends OpMode {
         FL = hardwareMap.get(DcMotor.class,"FLMoonRover");
         BR = hardwareMap.get(DcMotor.class,"BRNeilArmstrong");
         BL = hardwareMap.get(DcMotor.class,"BLArtemis");
-        Shooter_Left = hardwareMap.get(DcMotor.class,"Chickedee(Left shooter)");
-        Shooter_Right = hardwareMap.get(DcMotor.class,"Chick(right shooter)");
+        Shooter_Left = hardwareMap.get(DcMotorEx.class,"Chickedee(Left shooter)");
+        Shooter_Right = hardwareMap.get(DcMotorEx.class,"Chick(right shooter)");
         Front_Intake_Right = hardwareMap.get(DcMotor.class,"Icecube(lower intake right)");
         Middle_Intake_Left = hardwareMap.get(DcMotor.class,"Penguin2 (2nd intake left)");
         Servo = hardwareMap.get(CRServo.class,"Arctic(shooter servo)");
@@ -63,6 +64,11 @@ public class comp_codemini extends OpMode {
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
@@ -85,17 +91,17 @@ public class comp_codemini extends OpMode {
 
 
         if (gamepad2.dpad_right) {
-            Shooter_Right.setPower(1);
-            Shooter_Left.setPower(1);
+            Shooter_Right.setVelocity(1900);
+            Shooter_Left.setVelocity(1900);
         } else if(gamepad2.dpad_left) {
-            Shooter_Right.setPower(0);
-            Shooter_Left.setPower(0);
+            Shooter_Right.setVelocity(1500);
+            Shooter_Left.setVelocity(1500);
         } else if(gamepad2.dpad_up){
-            Shooter_Right.setPower(0.75);
-            Shooter_Left.setPower(0.75);
+            Shooter_Right.setVelocity(1000);
+            Shooter_Left.setVelocity(1000);
         } else if(gamepad2.dpad_down){
-            Shooter_Right.setPower(0);
-            Shooter_Left.setPower(0);
+            Shooter_Right.setVelocity(0);
+            Shooter_Left.setVelocity(0);
         }
         if (gamepad2.x){
             Servo.setPower(1);
@@ -121,6 +127,9 @@ public class comp_codemini extends OpMode {
         telemetry.addData("Front Left" , FL.getCurrentPosition());
         telemetry.addData("Back Right" , BR.getCurrentPosition());
         telemetry.addData("Back Left" , BL.getCurrentPosition());
+        telemetry.addData("Power", BL.getPower());
+        telemetry.addData("leftshooter", Shooter_Left.getVelocity());
+        telemetry.addData("rightshooter",Shooter_Right.getVelocity());
         telemetry.update();
 
 
