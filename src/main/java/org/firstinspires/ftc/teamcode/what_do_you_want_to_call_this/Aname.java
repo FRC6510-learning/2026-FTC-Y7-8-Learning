@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.what_do_you_want_to_call_this;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "a6ArBotcode")
 public class Aname extends OpMode {
@@ -13,6 +17,8 @@ public class Aname extends OpMode {
     private DcMotor FL_wheel, BL_wheel, FR_wheel, BR_wheel, Front_feeder, Middle_feeder, Shooter_2, Shooter_1;
     private CRServo Servo;
     double aname = 0.28;
+
+    private IMU imu_called_bob;
     @Override
     public void init() {
         // Section 2
@@ -35,6 +41,14 @@ public class Aname extends OpMode {
         FR_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BR_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        imu_called_bob = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        imu_called_bob.initialize(parameters);
+
+        imu_called_bob.resetYaw();
     }
     @Override
     public void loop() {
@@ -86,12 +100,13 @@ public class Aname extends OpMode {
 
         // you told me to name it something and something else
         //
-
+        double current_angle = imu_called_bob.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         telemetry.addData("something", "something else");
         telemetry.addData("Front right position", FR_wheel.getCurrentPosition());
         telemetry.addData("Back right position", BR_wheel.getCurrentPosition());
         telemetry.addData("Front Left position", FL_wheel.getCurrentPosition());
         telemetry.addData("Back Left position", BL_wheel.getCurrentPosition());
+        telemetry.addData("imu pos", current_angle);
         telemetry.update();
 
 
