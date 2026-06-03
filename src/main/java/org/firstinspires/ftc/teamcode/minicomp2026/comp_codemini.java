@@ -25,7 +25,7 @@ public class comp_codemini extends OpMode {
 
     double FPS = 0.5;
 
-
+hi
 
 
 
