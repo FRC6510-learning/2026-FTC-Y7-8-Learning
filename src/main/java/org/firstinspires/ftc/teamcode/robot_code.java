@@ -91,6 +91,12 @@ public class robot_code extends OpMode
         rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        topShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bottomShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
