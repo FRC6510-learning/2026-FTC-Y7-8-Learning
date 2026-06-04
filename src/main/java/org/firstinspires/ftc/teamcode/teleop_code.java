@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp (name = "a10")
 public class teleop_code extends OpMode {
 
+    // Section 1 : naming variables
+
     private DcMotor front_left, front_right, back_right, back_left;
     private DcMotor left_flywheel, right_flywheel, conveyor, intake;
     private CRServo feeder;
@@ -18,6 +20,9 @@ public class teleop_code extends OpMode {
 
     @Override
     public void init() {
+
+        // section 2 : connecting ports :)))))))))))))
+
         front_left = hardwareMap.get(DcMotor.class, "front_left");
         front_right = hardwareMap.get(DcMotor.class, "front_right");
         back_left = hardwareMap.get(DcMotor.class, "back_left");
@@ -37,6 +42,9 @@ public class teleop_code extends OpMode {
 
     @Override
     public void loop() {
+
+        // Section 3 : actual code
+
         if (gamepad1.left_bumper) {
             intake.setPower(1);
             conveyor.setPower(1);
@@ -66,8 +74,8 @@ public class teleop_code extends OpMode {
 
         if (power) {
             // turn on top top shooter,bottom shooter motors
-            left_flywheel.setPower(-0.8);
-            right_flywheel.setPower(0.8);
+            left_flywheel.setPower(-1);
+            right_flywheel.setPower(1);
         }
         else {
             left_flywheel.setPower(0);
