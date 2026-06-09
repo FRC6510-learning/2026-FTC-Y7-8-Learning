@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -86,6 +87,9 @@ public class Program_Drive extends OpMode
         frontIntake = hardwareMap.get(DcMotor.class, "front intake motor");
         backIntake = hardwareMap.get(DcMotor.class, "back intake motor");
 
+        topShooter = hardwareMap.get(DcMotor.class, "top shooter motor");
+        bottomShooter = hardwareMap.get(DcMotor.class, "bottom shooter motor");
+
         feeder = hardwareMap.get(CRServo.class, "Shooter servo");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -95,6 +99,8 @@ public class Program_Drive extends OpMode
         rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
         rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        topShooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -121,7 +127,7 @@ public class Program_Drive extends OpMode
     @Override
     public void loop() {
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 
         boolean rightbumper = gamepad1.right_bumper;
@@ -145,20 +151,20 @@ public class Program_Drive extends OpMode
             frontIntake.setPower(1);
             backIntake.setPower(1);
         } else if (gamepad1.right_trigger > 0.3){
-            frontIntake.setPower(0);
-            backIntake.setPower(1);
+            frontIntake.setPower(-1);
+            backIntake.setPower(-1);
         } else {
             frontIntake.setPower(0);
             backIntake.setPower(0);
         }
 
-//        if(leftbumper){
-//          feeder.setPower(1);
-//        } else {
-//         feeder.setPower(0);
-//        }
+        if(leftbumper){
+          feeder.setPower(-1);
+        } else {
+         feeder.setPower(0);
+        }
 
-        if(gamepad1.right_trigger > 0.3) {
+        if(gamepad1.left_trigger > 0.3) {
            topShooter.setPower(1);
            bottomShooter.setPower(1);
         } else {
