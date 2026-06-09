@@ -31,8 +31,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Robot Drive", group="Iterative OpMode")
+@TeleOp(name="Robot Drive fix", group="Iterative OpMode")
 public class Program_Drive extends OpMode
 {
     // Declare OpMode members.
@@ -58,6 +58,16 @@ public class Program_Drive extends OpMode
     private DcMotor leftBackMotor = null;
     private DcMotor rightFrontMotor = null;
     private DcMotor rightBackMotor = null;
+
+    private DcMotor frontIntake = null;
+
+    private DcMotor backIntake = null;
+
+    private CRServo feeder = null;
+
+    private DcMotor topShooter = null;
+
+    private DcMotor bottomShooter = null;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -68,16 +78,21 @@ public class Program_Drive extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftFrontMotor  = hardwareMap.get(DcMotor.class, "leftFront");
-        rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFront");
-        leftBackMotor  = hardwareMap.get(DcMotor.class, "leftBack");
-        rightBackMotor = hardwareMap.get(DcMotor.class, "rightBack");
+        leftFrontMotor  = hardwareMap.get(DcMotor.class, "front left motor");
+        rightFrontMotor = hardwareMap.get(DcMotor.class, "front right motor");
+        leftBackMotor  = hardwareMap.get(DcMotor.class, "back left motor");
+        rightBackMotor = hardwareMap.get(DcMotor.class, "back right motor");
+
+        frontIntake = hardwareMap.get(DcMotor.class, "front intake motor");
+        backIntake = hardwareMap.get(DcMotor.class, "back intake motor");
+
+        feeder = hardwareMap.get(CRServo.class, "Shooter servo");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
         rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -105,22 +120,52 @@ public class Program_Drive extends OpMode
      */
     @Override
     public void loop() {
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_x;
 
-        double leftPower = 0; //TODO Complete this line.
-        double rightPower = 0; //TODO Complete this line
+        boolean rightbumper = gamepad1.right_bumper;
+        boolean leftbumper = gamepad1.left_bumper;
 
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double frontLeftPower = (y + x + rx) / denominator;
+        double backLeftPower = (y - x + rx) / denominator;
+        double frontRightPower = (y - x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator;
 
-        // Send calculated power to wheels
-        leftFrontMotor.setPower(leftPower);
-        leftBackMotor.setPower(leftPower);
-        rightFrontMotor.setPower(rightPower);
-        rightBackMotor.setPower(rightPower);
+        leftFrontMotor.setPower(frontLeftPower);
+        leftBackMotor.setPower(backLeftPower);
+        rightFrontMotor.setPower(frontRightPower);
+        rightBackMotor.setPower(backRightPower);
 
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        if(rightbumper){
+            frontIntake.setPower(1);
+            backIntake.setPower(1);
+        } else if (gamepad1.right_trigger > 0.3){
+            frontIntake.setPower(0);
+            backIntake.setPower(1);
+        } else {
+            frontIntake.setPower(0);
+            backIntake.setPower(0);
+        }
+
+//        if(leftbumper){
+//          feeder.setPower(1);
+//        } else {
+//         feeder.setPower(0);
+//        }
+
+        if(gamepad1.right_trigger > 0.3) {
+           topShooter.setPower(1);
+           bottomShooter.setPower(1);
+        } else {
+            topShooter.setPower(0);
+            bottomShooter.setPower(0);
+        }
+
     }
 
     /*
