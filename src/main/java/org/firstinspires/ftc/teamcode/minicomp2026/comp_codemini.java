@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode.minicomp2026;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-
-
-
 
 @TeleOp(name = "")
 public class comp_codemini extends OpMode {
@@ -21,17 +16,7 @@ public class comp_codemini extends OpMode {
     DcMotor Middle_Intake_Left;
     DcMotor Shooter_Right,Shooter_Left;
     CRServo Servo;
-
     double FPS = 0.5;
-
-
-
-
-
-
-
-
-
 
     @Override
     public void init(){
@@ -48,9 +33,6 @@ public class comp_codemini extends OpMode {
         Middle_Intake_Left = hardwareMap.get(DcMotor.class,"Penguin2 (2nd intake left)");
         Servo = hardwareMap.get(CRServo.class,"Arctic(shooter servo)");
 
-
-
-
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -63,8 +45,6 @@ public class comp_codemini extends OpMode {
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
 
     }
     @Override
@@ -122,9 +102,6 @@ public class comp_codemini extends OpMode {
         telemetry.addData("Back Right" , BR.getCurrentPosition());
         telemetry.addData("Back Left" , BL.getCurrentPosition());
         telemetry.update();
-
-
-
 
 
     }
