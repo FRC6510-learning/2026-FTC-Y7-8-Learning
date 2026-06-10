@@ -49,10 +49,17 @@ public class Aname extends OpMode {
         imu_called_bob.initialize(parameters);
 
         imu_called_bob.resetYaw();
+
+        FL_wheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FR_wheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL_wheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BR_wheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
     }
     @Override
     public void loop() {
-        if (gamepad1.a) {
+        if (gamepad1.a || gamepad1.right_trigger > 0.2) {
             Front_feeder.setPower(-1);
             Middle_feeder.setPower(1);
         } else if (gamepad1.y) {
@@ -65,7 +72,7 @@ public class Aname extends OpMode {
         }
 
 
-        if (gamepad1.b) {
+        if (gamepad1.b || gamepad1.left_trigger > 0.2) {
             Servo.setPower(-1);
         } else {
             Servo.setPower(0);
