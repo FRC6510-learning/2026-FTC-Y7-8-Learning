@@ -1,4 +1,5 @@
 import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,7 +14,7 @@ import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@Autonomous(name = "a5robotcode_auto_fs")
+@Autonomous(name = "a5robotcode_auto1")
 public class Robot_code_auto extends LinearOpMode {
     private DcMotor FrontRight, FrontLeft, BackLeft, BackRight, secondfeeder,  firstfeeder;
     private CRServo Servo;
@@ -63,7 +64,7 @@ public class Robot_code_auto extends LinearOpMode {
 
         waitForStart();
 
-        forward(1100, 0.6);
+        forward(1000, 0.6);
 
         Turn(90);
 
@@ -72,57 +73,71 @@ public class Robot_code_auto extends LinearOpMode {
         secondfeeder.setPower(-0.7);
 
 
-        forward(-1900, 0.5);
+        forward(-2000, 0.5);
         Servo.setPower(0);
         sleep(1000);
         Servo.setPower(0);
         secondfeeder.setPower(0);
 
 
-        forward(2100, 0.6);
+        forward(2000, 0.6);
         Turn(0);
-        forward(2000,0.6);
-        Turn(45);
+        forward(1900,0.6);
+        Turn(-55);
+        forward(20, 0.6);
 
 
 
-        frontshooter.setVelocity(-1950);
-        backshooter.setVelocity(-1950);
+        frontshooter.setVelocity(-2000);
+        backshooter.setVelocity(-2000);
         Servo.setPower(-2);
         secondfeeder.setPower(-1);
-        sleep(8000);
+        sleep(6000);
         frontshooter.setVelocity(0);
         backshooter.setVelocity(0);
         Servo.setPower(0);
         secondfeeder.setPower(0);
         firstfeeder.setPower(0);
 
-        Turn(90);
-        forward(500,6);
-        Turn(180);
-        forward(1500,6);
+        Turn(-90);
+        forward(900,6);
+        Turn(-180);
+        forward(1600,6);
 
 
 
     }
     public void Turn(double target_angle) {
-        double Kp = 0.03;
+        double Kp = 0.0117;
         double current_angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
-        while (Math.abs(current_angle - target_angle) > 3){
+        while (Math.abs(current_angle - target_angle) > 4){
             current_angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
             double error = target_angle - current_angle;
 
-            FrontLeft.setPower(error * Kp);
-            FrontRight.setPower(error * -Kp);
-            BackLeft.setPower(error * Kp);
-            BackRight.setPower(error * -Kp);
+            double power = error * Kp;
+
+            if (abs(power) < 0.1) {
+                power = 0.1 * (power/abs(power));
+            }
+
+
+            FrontLeft.setPower(power);
+            FrontRight.setPower(-power);
+            BackLeft.setPower(power);
+            BackRight.setPower(-power);
 
             telemetry.addData("current: ", current_angle);
             telemetry.addData("error: ", error);
             telemetry.update();
         }
+
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
+
     }
     public void forward(int distance, double power) {
 
@@ -162,7 +177,10 @@ public class Robot_code_auto extends LinearOpMode {
         BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
 
     }
 
