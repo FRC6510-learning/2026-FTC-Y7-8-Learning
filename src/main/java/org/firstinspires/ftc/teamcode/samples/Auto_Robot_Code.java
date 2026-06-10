@@ -47,6 +47,31 @@ public class Auto_Robot_Code extends LinearOpMode
 
     }
 
+    public void turn(int distance, double speed){
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FR.setTargetPosition(distance);
+        FL.setTargetPosition(-distance);
+        BR.setTargetPosition(distance);
+        BL.setTargetPosition(-distance);
+
+        FR.setPower(speed);
+        FL.setPower(-speed);
+        BR.setPower(speed);
+        BL.setPower(-speed);
+
+
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(FR.isBusy() || FL.isBusy() || BR.isBusy() || BL.isBusy()) {}
+    }
+
     @Override
     public void runOpMode(){
         //Auto Code
