@@ -110,6 +110,8 @@ public class Auto_Robot_Code extends LinearOpMode
 
         // turn shooter
         sleep(1000);
+        I.setPower(-1);
+        PF.setPower(-1);
         F.setPower(1);
         SR.setPower(1);
         SL.setPower(1);
