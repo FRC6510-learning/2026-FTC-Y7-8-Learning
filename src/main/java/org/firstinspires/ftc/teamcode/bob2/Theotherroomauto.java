@@ -48,50 +48,131 @@ public class Theotherroomauto extends LinearOpMode {
 
         waitForStart();
 
+        forward(-1000, -0.5);
 
-        FR.setTargetPosition(100000);
-        FR.setPower(1);
-        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-        FL.setTargetPosition(100000);
-        FL.setPower(1);
-        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turning(-1000, -0.5);
 
 
-        BR.setTargetPosition(100000);
-        BR.setPower(1);
-        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intakes(-1);
+        frontbob.setPower(1);
 
 
-        BL.setTargetPosition(100000);
-        BL.setPower(1);
-        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        forward(-1000, -0.5 );
+        forward(4000, 0.5);
+
+        turning(1000, 0.5);
+
+        forward(1500,0.5);
+
+        turning(55,0.5);
+
+        shooterbobl.setPower(1);
+        shooterbobr.setPower(1);
+
+        intakes(-1);
+
+
+
+
+
+
+
+        //int bob = jennifferr(10);
+
     }
 
+//    public int jennifferr(int x) {
+//        int y = x * 3;
+//        return y;
+//    }
+    public void intakes(double powerbob){
+        frontbob.setPower(powerbob);
+        middlebob.setPower(powerbob);
+        backbob.setPower(powerbob);
+    }
     public void forward(int distance, double power) {
-        FR.setTargetPosition(100000);
-        FR.setPower(1);
+
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        FR.setTargetPosition(distance);
+        FR.setPower(power);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        FL.setTargetPosition(100000);
-        FL.setPower(1);
+        FL.setTargetPosition(distance);
+        FL.setPower(power);
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        BR.setTargetPosition(100000);
-        BR.setPower(1);
+        BR.setTargetPosition(distance);
+        BR.setPower(power);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        BL.setTargetPosition(100000);
-        BL.setPower(1);
+        BL.setTargetPosition(distance);
+        BL.setPower(power);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        while (BL.isBusy() || BR.isBusy() || FR.isBusy() || FL.isBusy()) {
+        }
+
     }
+
+    public void turning(int distance, double power) {
+
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        FR.setTargetPosition(-distance);
+        FR.setPower(-power);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        FL.setTargetPosition(distance);
+        FL.setPower(power);
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        BR.setTargetPosition(-distance);
+        BR.setPower(-power);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        BL.setTargetPosition(distance);
+        BL.setPower(power);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (BL.isBusy() || BR.isBusy() || FR.isBusy() || FL.isBusy()) {
+        }
+
+
+    }
+
+
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   //Jennifer function
 
 
 
