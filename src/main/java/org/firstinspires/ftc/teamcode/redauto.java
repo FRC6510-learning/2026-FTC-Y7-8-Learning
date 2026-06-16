@@ -32,43 +32,53 @@ public class redauto extends LinearOpMode {
         front_left.setDirection(DcMotorSimple.Direction.REVERSE);
         back_left.setDirection(DcMotorSimple.Direction.REVERSE);
         feeder.setDirection(CRServo.Direction.REVERSE);
-        conveyor.setDirection(DcMotorSimple.Direction.REVERSE);
         left_flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         waitForStart();
         // Section 3 : code
         //drive forward from edge of white triangle tape
-        forward(1200, 0.8);
+        forward(1100, 0.3);
         //turn right
-        turn(-1000, 0.8);
+        turn(-1150, 0.3);
         // intake and conveyor turns on
         intake.setPower(1);
         conveyor.setPower(1);
         //drive forward
-        forward(1000, 0.2);
+        forward(800, 0.2);
+        //wait a sec
+        sleep(500);
         //drive back
-        forward(-1000, 0.5);
+        forward(-800, 0.3);
+        //drive forward again
+        forward(900, 0.3);
+        //wait a sec
+        sleep(500);
+        //drive back
+        forward(-1500, 0.5);
         //intake turn off
         intake.setPower(0);
+        conveyor.setPower(0);
         //turn right
         turn(-1000,0.8);
         //outtake turn on
         left_flywheel.setPower(1);
         right_flywheel.setPower(1);
         //drive back
-        forward(-2500, 0.2);
+        forward(-1800, 0.2);
         //turn right
-        turn(-300, 0.4);
+        turn(-300, 0.2);
+        //turn conveyor on
+        conveyor.setPower(1);
         //feeder turn on
         feeder.setPower(1);
-        sleep(5000);
+        sleep(1000);
         //outtake turn off
         right_flywheel.setPower(0);
         left_flywheel.setPower(0);
-        conveyor.setPower(1);
-        //fix wheel, and flywheel - too much friction
-        //refine code next time
+        conveyor.setPower(0);
+        feeder.setPower(0);
 
 
 
