@@ -31,10 +31,14 @@ public class NEW_Baked_Not_Fried extends OpMode {
     public void loop(){
         // 3 - acual drive code
 
-        RF.setPower(gamepad1.left_stick_y);
-        RB.setPower(gamepad1.left_stick_y);
-        LF.setPower(gamepad1.left_stick_y);
-        LB.setPower(gamepad1.left_stick_y);
+        double lsy = gamepad1.left_stick_y;
+        double turn = gamepad1.right_stick_x;
+        double strafe = gamepad1.left_stick_x;
+
+        RF.setPower(lsy - turn - strafe);
+        RB.setPower(lsy - turn + strafe);
+        LF.setPower(lsy + turn + strafe);
+        LB.setPower(lsy + turn - strafe);
 
 
 
