@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+@TeleOp(name = "baked_not_fried")
 public class NEW_Baked_Not_Fried extends OpMode {
     // 1 - declare variables
 
@@ -21,8 +23,8 @@ public class NEW_Baked_Not_Fried extends OpMode {
 
         RF.setDirection(DcMotorSimple.Direction.FORWARD);
         RB.setDirection(DcMotorSimple.Direction.FORWARD);
-        LF.setDirection(DcMotorSimple.Direction.FORWARD);
-        LB.setDirection(DcMotorSimple.Direction.FORWARD);
+        LF.setDirection(DcMotorSimple.Direction.REVERSE);
+        LB.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
