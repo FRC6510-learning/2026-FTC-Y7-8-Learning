@@ -1,15 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "a name- cc all rights reserved")
 public class NEW_Challenge_one_CC_All_Rights_Reserved extends OpMode {
     // 1 - variables
 
     DcMotor FRwheel, FLwheel, BRwheel, BLwheel;
+
+    IMU imu_called_bob;
+    double drivePower;
 
     @Override
     public void init(){
@@ -20,10 +27,20 @@ public class NEW_Challenge_one_CC_All_Rights_Reserved extends OpMode {
         BRwheel = hardwareMap.get(DcMotor.class, "brw");
         BLwheel = hardwareMap.get(DcMotor.class, "blw");
 
-        //hihi
+        imu_called_bob = hardwareMap.get(IMU.class, "imu");
+
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+// Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+        imu_called_bob.initialize(parameters);
+
+        //hihihihio
 
         FLwheel.setDirection(DcMotorSimple.Direction.REVERSE);
         BLwheel.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
     }
     @Override
@@ -34,11 +51,30 @@ public class NEW_Challenge_one_CC_All_Rights_Reserved extends OpMode {
         double turn = gamepad1.right_stick_x;
         double sideways = -gamepad1.left_stick_x;
 
-        FRwheel.setPower(forwards + turn - sideways);
-        FLwheel.setPower(forwards - turn + sideways);
-        BRwheel.setPower(forwards + turn + sideways);
-        BLwheel.setPower(forwards - turn - sideways);
+        double whatever_you_want_dont_type_in_whatever_you_want =  imu_called_bob.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        double rotStrafe = sideways * Math.cos(-whatever_you_want_dont_type_in_whatever_you_want) - forwards * Math.sin(-whatever_you_want_dont_type_in_whatever_you_want);
+        double rotForwards = sideways * Math.sin(-whatever_you_want_dont_type_in_whatever_you_want) + forwards * Math.cos(-whatever_you_want_dont_type_in_whatever_you_want);
+
+        if (gamepad1.right_bumper){
+            drivePower = 0.4;
+        } else {
+            drivePower = 1;
+        }
+
+        if (gamepad1.start){
+            imu_called_bob.resetYaw();
+        }
 
 
+
+        FRwheel.setPower(drivePower*(rotForwards + turn - rotStrafe));
+        FLwheel.setPower(drivePower*(rotForwards - turn + rotStrafe));
+        BRwheel.setPower(drivePower*(rotForwards + turn + rotStrafe));
+        BLwheel.setPower(drivePower*(rotForwards - turn - rotStrafe));
+
+
+        telemetry.addData("robot heading", imu_called_bob.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+        telemetry.update();
     }
 }
