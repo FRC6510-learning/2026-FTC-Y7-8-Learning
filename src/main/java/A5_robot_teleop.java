@@ -1,5 +1,3 @@
-
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -18,6 +16,8 @@ public class A5_robot_teleop extends OpMode {
         FrontLeft = hardwareMap.get(DcMotor.class, "FLW");
         BackLeft = hardwareMap.get(DcMotor.class, "BLW");
         BackRight = hardwareMap.get(DcMotor.class, "BRW");
+
+
         firstfeeder = hardwareMap.get(DcMotor.class, "FF");
         secondfeeder = hardwareMap.get(DcMotor.class, "SF");
         frontshooter = hardwareMap.get(DcMotor.class, "FS");
