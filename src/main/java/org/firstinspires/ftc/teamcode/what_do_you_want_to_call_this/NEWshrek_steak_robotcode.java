@@ -29,12 +29,10 @@
 
 package org.firstinspires.ftc.teamcode.what_do_you_want_to_call_this;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /*
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -54,39 +52,57 @@ import com.qualcomm.robotcore.util.Range;
 public class NEWshrek_steak_robotcode extends OpMode
 {
     // Declare OpMode members.
-    private DcMotor FR;
-    private DcMotor FL;
-    private DcMotor BR;
-    private DcMotor BL;
+    private DcMotor FrontRightMotor;
+    private DcMotor FrontLeftMotor;
+    private DcMotor BackRightMotor;
+    private DcMotor BackLeftMotor;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
+        FrontRightMotor = hardwareMap.get(DcMotor.class, "fr");
+        FrontLeftMotor = hardwareMap.get(DcMotor.class, "fl");
+        BackRightMotor = hardwareMap.get(DcMotor.class, "br");
+        BackLeftMotor = hardwareMap.get(DcMotor.class, "bl");
 
-        FR = hardwareMap.get(DcMotor.class, "fr");
-        FL = hardwareMap.get(DcMotor.class, "fl");
-        BR = hardwareMap.get(DcMotor.class, "br");
-        BL = hardwareMap.get(DcMotor.class, "bl");
-
+        FrontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        FrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        BackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        BackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     /*
      * Code to run REPEATEDLY after the driver hits START but before they hit STOP
      */
+
     @Override
     public void loop() {
-        FR.setPower(gamepad1.left_stick_y);
+        double forward_and_back = gamepad1.right_stick_y;
+        double turn = gamepad1.left_stick_x;
+        double left_and_right = gamepad1.right_stick_x;
 
+//        FrontRightMotor.setPower(forward_and_back);
+//        FrontLeftMotor.setPower(forward_and_back);
+//        BackRightMotor.setPower(forward_and_back);
+//        BackLeftMotor.setPower(forward_and_back);
 
+//        FrontRightMotor.setPower(turn);
+//        FrontLeftMotor.setPower(-turn);
+//        BackRightMotor.setPower(turn);
+//        BackLeftMotor.setPower(-turn);
 
+//        FrontRightMotor.setPower(left_and_right);
+//        FrontLeftMotor.setPower(-left_and_right);
+//        BackRightMotor.setPower(-left_and_right);
+//        BackLeftMotor.setPower(left_and_right);
 
-
-
-
+        FrontRightMotor.setPower(forward_and_back + turn + left_and_right);
+        FrontLeftMotor.setPower(forward_and_back -turn -left_and_right);
+        BackRightMotor.setPower(forward_and_back + turn -left_and_right);
+        BackLeftMotor.setPower(forward_and_back -turn + left_and_right);
 
     }
-
-
 }
