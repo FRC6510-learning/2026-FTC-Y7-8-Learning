@@ -34,17 +34,17 @@ public class NEW_Baked_Not_Fried extends OpMode {
 // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
-        RF.setDirection(DcMotorSimple.Direction.FORWARD);
-        RB.setDirection(DcMotorSimple.Direction.FORWARD);
-        LF.setDirection(DcMotorSimple.Direction.REVERSE);
-        LB.setDirection(DcMotorSimple.Direction.REVERSE);
+        RF.setDirection(DcMotorSimple.Direction.REVERSE);
+        RB.setDirection(DcMotorSimple.Direction.REVERSE);
+        LF.setDirection(DcMotorSimple.Direction.FORWARD);
+        LB.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     @Override
     public void loop(){
-        // 3 - acual drive code
+        // 3 - actual drive code
 
-        double move = gamepad1.left_stick_y;
+        double move = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
         double strafe = gamepad1.left_stick_x;
         double direction = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -52,10 +52,16 @@ public class NEW_Baked_Not_Fried extends OpMode {
         double RotStrafe = strafe * Math.cos(-direction) - move * Math.sin(-direction);
         double RotMove = strafe * Math.sin(-direction) + move * Math.cos(-direction);
 
-        RF.setPower(move + turn + strafe);
-        RB.setPower(move + turn -  strafe);
-        LF.setPower(move - turn - strafe);
-        LB.setPower(move - turn + strafe);
+        RF.setPower(RotMove - turn - RotStrafe);
+        RB.setPower(RotMove - turn +  RotStrafe);
+        LF.setPower(RotMove + turn + RotStrafe);
+        LB.setPower(RotMove + turn - RotStrafe);
+
+
+        if (gamepad1.start){
+            imu.resetYaw();
+        }
+
 
         telemetry.addData("imu", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         telemetry.update();
