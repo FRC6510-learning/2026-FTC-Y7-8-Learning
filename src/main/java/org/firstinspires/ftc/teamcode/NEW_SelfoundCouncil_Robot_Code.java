@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "selfoundCouncil")
+@TeleOp(name = "selfoundCouncil 5")
 public class NEW_SelfoundCouncil_Robot_Code extends OpMode {
     // Declare Variables
     private DcMotor frontLeft, frontRight, backRight, backLeft;
@@ -18,9 +18,9 @@ public class NEW_SelfoundCouncil_Robot_Code extends OpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backleftwheel");
         backRight = hardwareMap.get(DcMotor.class, "backrightwheel");
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
@@ -31,9 +31,11 @@ public class NEW_SelfoundCouncil_Robot_Code extends OpMode {
         double turn = -gamepad1.right_stick_x;
         double strafe= gamepad1.left_stick_x;
 
-        frontLeft.setPower(forward+turn+strafe);
-        frontRight.setPower(forward-turn-strafe);
-        backLeft.setPower(forward+turn-strafe);
-        backRight.setPower(forward-turn+strafe);
+        double SPEED = 0.5;
+
+        frontLeft.setPower((forward+turn-strafe)*SPEED);
+        frontRight.setPower((forward-turn+strafe)*SPEED);
+        backLeft.setPower((forward+turn+strafe)*SPEED);
+        backRight.setPower((forward-turn-strafe)*SPEED);
     }
 }
