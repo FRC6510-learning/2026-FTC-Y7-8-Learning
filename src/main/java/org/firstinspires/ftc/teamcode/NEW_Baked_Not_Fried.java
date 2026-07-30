@@ -41,7 +41,7 @@ public class NEW_Baked_Not_Fried extends OpMode {
     }
 
     @Override
-    public void loop(){
+    public void loop()
         // 3 - actual drive code
 
         double move = -gamepad1.left_stick_y;
