@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -50,67 +51,55 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative OpMode")
-@Disabled
+@TeleOp(name="iloveeatingeggs")
 public class free_range_eggs extends OpMode
 {
-    // Declare OpMode members
+
     private DcMotor frontLeft = null;
     private DcMotor frontRight = null;
     private DcMotor backRight = null;
     private DcMotor backLeft = null;
+    DcMotor intake;
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
         frontLeft  = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-//        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-//        rightDrive.setDirection(DcMotor.Direction.FORWARD);
-
-        // Tell the driver that initialization is complete.
-        telemetry.addData("Status", "Initialized");
     }
 
 
-    /*
-     * Code to run ONCE when the driver hits START
-     */
-    @Override
-    public void start() {
-
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits START but before they hit STOP
-     */
     @Override
     public void loop() {
-        double y = -gamepad1.left_stick_y;
+        double forward = -gamepad1.left_stick_y; // -1 --> 1
+        double strafe = gamepad1.left_stick_x;
+        double turn = gamepad1.right_stick_x;
+        // range of set power -1 --> 1
+        frontLeft.setPower(forward + strafe + turn);
+        frontRight.setPower(forward - strafe - turn);
+        backLeft.setPower(forward - strafe + turn);
+        backRight.setPower(forward + strafe - turn);
 
+            // 1
+        if (gamepad1.left_trigger > 0) {
+            intake.setPower(1);
+        } else {
+            intake.setPower(0);
+
+
+        }
 
 
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-    }
 
 }
