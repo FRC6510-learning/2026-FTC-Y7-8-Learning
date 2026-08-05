@@ -68,7 +68,10 @@ public class NEW_Baked_Not_Fried extends OpMode {
                 I.setPower(0);
             }
 
-            imu.resetYaw();
+            if (gamepad1.options) {
+                imu.resetYaw();
+            }
+
 
     }
 
