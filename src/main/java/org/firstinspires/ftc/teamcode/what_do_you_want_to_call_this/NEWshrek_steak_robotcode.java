@@ -57,10 +57,8 @@ public class NEWshrek_steak_robotcode extends OpMode
         } else if (outake_button) {
             IntakeMotor.setPower(-1);
         } else {
-
-
+            IntakeMotor.setPower(0);
         }
-
 
         double front_right_power = (forward_and_back + turn + left_and_right) * speed_multiplier;
         double front_left_power = (forward_and_back -turn -left_and_right) * speed_multiplier;
