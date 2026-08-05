@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class NEW_Baked_Not_Fried extends OpMode {
     // 1 - declare variables
 
-    DcMotor RF, RB, LF, LB;
+    DcMotor RF, RB, LF, LB, I;
 
     @Override
     public void init(){
@@ -19,6 +19,8 @@ public class NEW_Baked_Not_Fried extends OpMode {
         RB = hardwareMap.get(DcMotor.class, "rb");
         LF = hardwareMap.get(DcMotor.class, "lf");
         LB = hardwareMap.get(DcMotor.class, "lb");
+        I = hardwareMap.get(DcMotor.class, "i");
+
 
 
         RF.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -40,7 +42,11 @@ public class NEW_Baked_Not_Fried extends OpMode {
         LF.setPower(lsy + turn + strafe);
         LB.setPower(lsy + turn - strafe);
 
-
+            if (gamepad1.right_trigger > 0.1) {
+                I.setPower(1);
+            } else {
+                I.setPower(0);
+            }
 
     }
 
