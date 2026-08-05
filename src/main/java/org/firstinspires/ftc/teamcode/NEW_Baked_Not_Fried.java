@@ -27,6 +27,8 @@ public class NEW_Baked_Not_Fried extends OpMode {
         LB = hardwareMap.get(DcMotor.class, "lb");
         I = hardwareMap.get(DcMotor.class, "i");
 
+        imu = hardwareMap.get(IMU.class, "imu");
+
 
 
         RF.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -51,19 +53,19 @@ public class NEW_Baked_Not_Fried extends OpMode {
         double botHeading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         double forward = gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
-        double strafe = gamepad1.left_stick_x;
+        double turn = -gamepad1.right_stick_x;
+        double strafe = -gamepad1.left_stick_x;
 
         double rotStrafe = strafe * Math.cos(botHeading) - forward * Math.sin(botHeading);
         double rotForward = strafe * Math.sin(botHeading) + forward * Math.cos(botHeading);
 
-        RF.setPower(rotForward - turn - rotStrafe);
-        RB.setPower(rotForward - turn + rotStrafe);
-        LF.setPower(rotForward + turn + rotStrafe);
-        LB.setPower(rotForward + turn - rotStrafe);
+                RF.setPower(rotForward - turn - rotStrafe);
+                RB.setPower(rotForward - turn + rotStrafe);
+                LF.setPower(rotForward + turn + rotStrafe);
+                LB.setPower(rotForward + turn - rotStrafe);
 
-            if (gamepad1.right_trigger > 0.1) {
-                I.setPower(1);
+                if (gamepad1.right_trigger > 0.1) {
+                    I.setPower(-1);
             } else {
                 I.setPower(0);
             }
