@@ -14,11 +14,14 @@ public class NEW_RICE_FC extends OpMode {
 
     DcMotor lf_motor, lb_motor, rf_motor, rb_motor;
     IMU imu;
+    DcMotor intake;
 
     double drive_power;
 
     @Override
     public void init(){
+
+        ///////////////////////drivetrain///////////
         lf_motor = hardwareMap.get(DcMotor.class, "lf_motor");
         lb_motor = hardwareMap.get(DcMotor.class, "lb_motor");
         rf_motor = hardwareMap.get(DcMotor.class, "rf_motor");
@@ -27,7 +30,7 @@ public class NEW_RICE_FC extends OpMode {
         lb_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         lf_motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
+        /////////////telemetry///////////////
         imu = hardwareMap.get(IMU.class, "imu");
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -36,7 +39,9 @@ public class NEW_RICE_FC extends OpMode {
 
         imu.initialize(parameters);
 
-
+        //////////////intake////////////////////
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     @Override
     public void loop() {
@@ -57,13 +62,23 @@ public class NEW_RICE_FC extends OpMode {
 
 
         if (gamepad1.right_bumper) {
-            drive_power = 0.8;
+            drive_power = 0.9;
         } else {
             drive_power = 0.4;
         }
         if (gamepad1.start) {
             imu.resetYaw();
         }
+
+        if (gamepad2.right_bumper) {
+            intake.setPower(0.8);
+        }
+         else {
+             intake.setPower(0);
+        }
+         if (gamepad2.left_bumper) {
+             intake.setPower(-1);
+         }
 
         telemetry.addData("imu", robot_heading);
         telemetry.update();
