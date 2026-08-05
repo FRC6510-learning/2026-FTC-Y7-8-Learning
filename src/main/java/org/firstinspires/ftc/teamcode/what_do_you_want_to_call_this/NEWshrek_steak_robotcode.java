@@ -13,6 +13,7 @@ public class NEWshrek_steak_robotcode extends OpMode
     private DcMotor FrontLeftMotor;
     private DcMotor BackRightMotor;
     private DcMotor BackLeftMotor;
+    private DcMotor IntakeMotor;
 
 
     /*
@@ -24,11 +25,13 @@ public class NEWshrek_steak_robotcode extends OpMode
         FrontLeftMotor = hardwareMap.get(DcMotor.class, "fl");
         BackRightMotor = hardwareMap.get(DcMotor.class, "br");
         BackLeftMotor = hardwareMap.get(DcMotor.class, "bl");
+        IntakeMotor = hardwareMap.get(DcMotor.class,  "intake");
 
         FrontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         FrontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         BackRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         BackLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        IntakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     /*
@@ -41,9 +44,14 @@ public class NEWshrek_steak_robotcode extends OpMode
         double turn = gamepad1.left_stick_x;
         double left_and_right = gamepad1.right_stick_x;
         double speed_multiplier = 0.75;
+        boolean intake_button = gamepad1.a;
 
         if(gamepad1.right_bumper) {
             speed_multiplier = 0.25;
+        }
+
+        if(intake_button) {
+            IntakeMotor.setPower(1);
         }
 
         double front_right_power = (forward_and_back + turn + left_and_right) * speed_multiplier;
