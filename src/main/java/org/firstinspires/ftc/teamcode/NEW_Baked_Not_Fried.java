@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class NEW_Baked_Not_Fried extends OpMode {
     // 1 - declare variables
 
-    DcMotor RF, RB, LF, LB;
+    DcMotor RF, RB, LF, LB, I;
 
     IMU imu;
 
@@ -25,46 +25,50 @@ public class NEW_Baked_Not_Fried extends OpMode {
         RB = hardwareMap.get(DcMotor.class, "rb");
         LF = hardwareMap.get(DcMotor.class, "lf");
         LB = hardwareMap.get(DcMotor.class, "lb");
+        I = hardwareMap.get(DcMotor.class, "i");
 
-        imu = hardwareMap.get(IMU.class, "imu");
+
+
+        RF.setDirection(DcMotorSimple.Direction.FORWARD);
+        RB.setDirection(DcMotorSimple.Direction.FORWARD);
+        LF.setDirection(DcMotorSimple.Direction.REVERSE);
+        LB.setDirection(DcMotorSimple.Direction.REVERSE);
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
 // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
-        RF.setDirection(DcMotorSimple.Direction.REVERSE);
-        RB.setDirection(DcMotorSimple.Direction.REVERSE);
-        LF.setDirection(DcMotorSimple.Direction.FORWARD);
-        LB.setDirection(DcMotorSimple.Direction.FORWARD);
+        imu.resetYaw();
+
     }
 
     @Override
-    public void loop()
-        // 3 - actual drive code
+    public void loop(){
+        // 3 - acual drive code
 
-        double move = -gamepad1.left_stick_y;
+        double botHeading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        double forward = gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
         double strafe = gamepad1.left_stick_x;
-        double direction = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        double RotStrafe = strafe * Math.cos(-direction) - move * Math.sin(-direction);
-        double RotMove = strafe * Math.sin(-direction) + move * Math.cos(-direction);
+        double rotStrafe = strafe * Math.cos(botHeading) - forward * Math.sin(botHeading);
+        double rotForward = strafe * Math.sin(botHeading) + forward * Math.cos(botHeading);
 
-        RF.setPower(RotMove - turn - RotStrafe);
-        RB.setPower(RotMove - turn +  RotStrafe);
-        LF.setPower(RotMove + turn + RotStrafe);
-        LB.setPower(RotMove + turn - RotStrafe);
+        RF.setPower(rotForward - turn - rotStrafe);
+        RB.setPower(rotForward - turn + rotStrafe);
+        LF.setPower(rotForward + turn + rotStrafe);
+        LB.setPower(rotForward + turn - rotStrafe);
 
+            if (gamepad1.right_trigger > 0.1) {
+                I.setPower(1);
+            } else {
+                I.setPower(0);
+            }
 
-        if (gamepad1.start){
             imu.resetYaw();
-        }
-
-
-        telemetry.addData("imu", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-        telemetry.update();
 
     }
 
