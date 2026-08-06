@@ -47,6 +47,31 @@ public class Auto_Robot_Code extends LinearOpMode
 
     }
 
+    public void turn(int distance, double speed){
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FR.setTargetPosition(distance);
+        FL.setTargetPosition(-distance);
+        BR.setTargetPosition(distance);
+        BL.setTargetPosition(-distance);
+
+        FR.setPower(speed);
+        FL.setPower(-speed);
+        BR.setPower(speed);
+        BL.setPower(-speed);
+
+
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(FR.isBusy() || FL.isBusy() || BR.isBusy() || BL.isBusy()) {}
+    }
+
     @Override
     public void runOpMode(){
         //Auto Code
@@ -61,14 +86,37 @@ public class Auto_Robot_Code extends LinearOpMode
 
         F = hardwareMap.get(CRServo.class,"F");
 
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        waitForStart();
 
         //Auto program
-        move(1000,0.5);
 
-        move(1500, 0.7);
+        move(1000, 0.7);
+        turn(1000, 0.7);
+        I.setPower(-1);
+        PF.setPower(-1);
+        move(1750, 1);
+        I.setPower(0);
+        PF.setPower(0);
+        move(-2000, 1);
+        turn(1000, 0.7);
+        move(-2000, 1);
+        turn(500, 0.7);
+        move(-2000, 1);
+
+        // turn shooter
+        sleep(1000);
+        I.setPower(-1);
+        PF.setPower(-1);
+        F.setPower(1);
+        SR.setPower(1);
+        SL.setPower(1);
+
+        // turn shooter off
+
     }
 }
